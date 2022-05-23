@@ -9,12 +9,14 @@ export default function App() {
   const [error,setError]=useState(false);
   const [data, setData] = useState([]);
   const [page,setPage]=useState(1);
-  const [salarysort,setSalarysort]=useState("asc")
-  const [shwo,setShwo]=useState("desc")
-useEffect(()=>{
-  fetchdata(page,salarysort,setShwo)
 
-},[page,salarysort,setShwo])
+  const [sortby,setSortby]=useState("ASC")
+  const [title,setTitle]=useState("Sort by Descending Salary")
+
+useEffect(()=>{
+  fetchdata(page,sortby)
+
+},[page,sortby])
 const fetchdata=async()=>{
   setLoading(true)
   axios({
@@ -24,7 +26,7 @@ const fetchdata=async()=>{
       _page:page,
       _limit:5,
       _sort:"salary",
-      _order:`${salarysort}`
+      _order:sortby
     }
   })
   .then(res=>{
@@ -37,12 +39,29 @@ const fetchdata=async()=>{
   })
 }
 
+
+const handleClick=()=>{
+  if(sortby==="ASC"){
+    setSortby("DESC")
+    setTitle("Sort by Ascending Salary")
+    setLoading(true)
+  }
+  else{
+    setSortby("ASC")
+    setTitle("Sort by Descending Salary")
+    setLoading(true)
+  }
+}
+
+
+
 console.log(data)
   return (
     <div className="App">
       <div>
         {loading && <div id="loading-container">...Loading</div>}
-        <Button id="SORT_BUTTON" title={`Sort by Ascending Salary`} disabled={salarysort==="desc"} onClick={()=>setSalarysort("desc")} />
+        {/* <Button id="SORT_BUTTON" title={`Sort by Ascending Salary`} disabled={salarysort==="desc"} onClick={()=>setSalarysort("desc")} /> */}
+        <Button onClick={handleClick} id="SORT_BUTTON" title={title} />
         <Button title="PREV" id="PREV"  disabled={page===1} onClick={()=>setPage(page-1)}/>
         <Button id="NEXT" title="NEXT" onClick={()=>setPage(page+1)}/>
       </div>
