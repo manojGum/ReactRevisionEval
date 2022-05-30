@@ -1,20 +1,26 @@
-import React from 'react'
-
-const RegisterPageOne = ({formData,setFormData}) => {
+import React,{useContext} from 'react'
+import { Link } from 'react-router-dom'
+import { RegistrationContext } from '../Context/RegistrationContextProvider'
+const initialFormState={
+  name:"",
+  email:"",
+  phone:"",
+  address:""
+}
+const RegisterPageOne = () => {
+  const [state,dispatch]=useContext(RegistrationContext,initialFormState);
+  const handelchange=(e)=>{
+    dispatch({
+      type:"Handele Input",
+      field:e.target.name,
+      payload:e.target.value
+    })
+  }
   return (
-    <div className='registerpage-container'>
-        <div style={
-           {
-               marginBottom:"1rem"
-           }}>
-        <input type="text" placeholder='Name ..' value={formData.name} onChange={(event)=>setFormData({...formData, name: event.target.value})}/>
-        </div>
-      <div style={
-           {
-               marginBottom:"1rem"
-           }}>
-      <input type="email" placeholder='Email ..' value={formData.email} onChange={(event)=>setFormData({...formData, email: event.target.value})} />
-      </div>
+    <div>
+<input type="text" onChange={handelchange} name="name" value={state.name} placeholder='enter your name' />
+<input type="email" onChange={handelchange} name="email" value={state.email} placeholder="enter your email" />
+<button disabled={state.name===""} ><Link to="/register/two"> next </Link></button>
 
     </div>
   )
