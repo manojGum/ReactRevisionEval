@@ -7,7 +7,10 @@ const Dashboard = () => {
     const FormTitle=["RegisterPageOne","RegisterPageTwo"];
     const [formData,setFormData]=useState({
         name:"",
-        email:""
+        email:"",
+        address:"",
+        phone:""
+
     })
     const PageDisplay=()=>{
         if(page===0)
@@ -16,16 +19,16 @@ const Dashboard = () => {
         }
         else  if(page===1)
         {
-            return <RegisterPageTwo />
+            return <RegisterPageTwo  formData={formData} setFormData={setFormData}/>
         }
       
     }
   return (
     <div className='form'>
 
-    <div className='progressbar'>
+    {/* <div className='progressbar'>
         <div style={{width:page===0 ?"50":"100"}}></div>
-    </div>
+    </div> */}
     <div className='form=container'>
         <div  className='header'>
             <h1>{FormTitle[page]}</h1>
@@ -38,9 +41,20 @@ const Dashboard = () => {
               }}
             >Prev</button>
             <button 
-            disabled={page===FormTitle.length-1}
-            onClick={()=>{setPage((currPage)=>currPage+1);
-            }}>Next</button>
+            
+            onClick={()=>{
+                if(page===FormTitle.length-1){
+                    alert("form submited")
+                }
+                else{
+                    setPage((currPage)=>currPage+1);
+                }
+                
+                
+            }}>
+               {page===FormTitle.length-1? "Sumit" : "Next"}
+            
+            </button>
         </div>
 
     </div>
